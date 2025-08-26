@@ -1,21 +1,74 @@
-MIT License
+---
 
-Copyright (c) 2025 -FuFu-挖西福福
+## 4️⃣ 新增程式碼檔案 simulator.py
+1. 點 Repository 頁面 **Add file → Create new file**  
+2. 檔名填寫：`simulator.py`  
+3. 將完整程式碼貼上：
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+```python
+import time
+import os
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+class JiuGePUBGSimulator:
+    def __init__(self):
+        self.menu_open = True
+        self.running = True
+        self.features = {
+            "自瞄": False,
+            "防後座": False,
+            "防抖動": False,
+            "載具功能": False,
+            "人物加速": False,
+            "透視/骨架 ESP": False,
+            "目標預測": False,
+            "自動拾取": False,
+            "特殊技能": False,
+            "防偵測": True
+        }
+        self.smoothness = 50
+        self.accuracy = 80
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+    def toggle_feature(self, name):
+        if name in self.features:
+            self.features[name] = not self.features[name]
+
+    def render_menu(self):
+        os.system("cls" if os.name == "nt" else "clear")
+        print("="*45)
+        print("       九哥PUBG安全輔助 模擬演示系統")
+        print("="*45)
+        print("\n功能選項：")
+        for f, enabled in self.features.items():
+            print(f"[{'✔' if enabled else ' '}] {f}")
+        print(f"\n自瞄精度: {self.accuracy}%")
+        print(f"平滑度:   {self.smoothness}%")
+        print("\n熱鍵對應：")
+        print(" Home → 開關菜單")
+        print(" F8   → 自瞄")
+        print(" F10  → 載具功能")
+        print(" F11  → 人物加速")
+        print(" F12  → ESP/透視")
+        print(" F9   → 關閉模擬器")
+        print("="*45)
+
+    def simulate_enemy_tracking(self):
+        enemies = ["⬤", "   ⬤", "      ⬤", "         ⬤"]
+        while self.running:
+            if self.menu_open:
+                self.render_menu()
+            print("\n敵人位置模擬：")
+            for e in enemies:
+                print("   " + e)
+            print("\n[自瞄線] ----> ⬤ (最近敵人)")
+            time.sleep(1)
+            enemies = enemies[::-1]
+
+    def run(self):
+        try:
+            self.simulate_enemy_tracking()
+        except KeyboardInterrupt:
+            print("\n模擬結束，安全退出。")
+
+if __name__ == "__main__":
+    sim = JiuGePUBGSimulator()
+    sim.run()
